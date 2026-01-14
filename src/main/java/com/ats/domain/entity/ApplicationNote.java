@@ -5,6 +5,11 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Application Note entity representing notes associated with job applications.
+ * Includes references to the application and the user who created the note.
+ * Indexes are created on application_id and created_by for optimized queries.
+ */
 @Entity
 @Table(name = "application_notes", indexes = {
         @Index(name = "idx_application_id_notes", columnList = "application_id"),

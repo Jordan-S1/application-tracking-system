@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository interface for managing ApplicationNote entities.
+ */
 @Repository
 public interface ApplicationNoteRepository extends JpaRepository<ApplicationNote, Long> {
 

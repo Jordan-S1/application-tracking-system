@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Repository interface for managing ApplicationStatusHistory entities.
+ */
 @Repository
 public interface ApplicationStatusHistoryRepository extends JpaRepository<ApplicationStatusHistory, Long> {
 
@@ -19,6 +22,5 @@ public interface ApplicationStatusHistoryRepository extends JpaRepository<Applic
     List<ApplicationStatusHistory> findByApplicationAndCreatedAtBetweenOrderByCreatedAtDesc(
             Application application,
             LocalDateTime startTime,
-            LocalDateTime endTime
-    );
+            LocalDateTime endTime);
 }

@@ -9,6 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * User entity representing a system user (Candidate or Recruiter).
+ * Implements UserDetails for Spring Security integration.
+ */
 @Entity
 @Table(name = "users", indexes = {
         @Index(name = "idx_email", columnList = "email", unique = true),

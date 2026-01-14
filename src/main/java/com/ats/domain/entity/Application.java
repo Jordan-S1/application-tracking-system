@@ -8,6 +8,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Application entity representing job applications.
+ * Includes references to the owner user and maintains status history and notes.
+ * Indexes are created on owner_id, status, company_name, and date_applied for
+ * optimized queries.
+ */
 @Entity
 @Table(name = "applications", indexes = {
         @Index(name = "idx_owner_id", columnList = "owner_id"),
@@ -77,8 +83,7 @@ public class Application {
     public void updateStatus(ApplicationStatus newStatus) {
         if (!status.canTransitionTo(newStatus)) {
             throw new IllegalStateException(
-                    String.format("Cannot transition from %s to %s", status, newStatus)
-            );
+                    String.format("Cannot transition from %s to %s", status, newStatus));
         }
         this.status = newStatus;
     }

@@ -1,5 +1,11 @@
 package com.ats.domain.entity;
 
+/**
+ * Application status enum defining the valid states in the job application lifecycle.
+ * Workflow: APPLIED -> PHONE_SCREEN -> INTERVIEW -> OFFER -> ACCEPTED/REJECTED.
+ * ACCEPTED and REJECTED are terminal states - no further transitions allowed.
+ * The canTransitionTo() method enforces valid state transitions.
+ */
 public enum ApplicationStatus {
     APPLIED,
     PHONE_SCREEN,

@@ -5,6 +5,13 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Application Status History entity representing the history of status changes
+ * for job applications.
+ * Includes references to the application and the user who made the change.
+ * Indexes are created on application_id, created_by, and created_at for
+ * optimized queries.
+ */
 @Entity
 @Table(name = "application_status_history", indexes = {
         @Index(name = "idx_application_id", columnList = "application_id"),
