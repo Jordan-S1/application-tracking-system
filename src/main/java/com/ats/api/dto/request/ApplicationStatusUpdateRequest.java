@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO for application status update requests.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * DTO for application requests.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

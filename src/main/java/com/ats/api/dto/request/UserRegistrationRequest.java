@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO for user registration requests.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

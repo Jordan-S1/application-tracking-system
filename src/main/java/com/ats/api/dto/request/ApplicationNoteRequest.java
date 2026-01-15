@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO for application note requests.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
