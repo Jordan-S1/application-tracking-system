@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: ats-postgres
+    environment:
+      POSTGRES_DB: ats_db
+      POSTGRES_USER: ats_user
+      POSTGRES_PASSWORD: ats_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ats_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ats-network
+
+  backend:
+    build: .
+    container_name: ats-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ats_db
+      SPRING_DATASOURCE_USERNAME: ats_user
+      SPRING_DATASOURCE_PASSWORD: ats_password
+      JWT_SECRET: your-super-secret-key-change-in-production-minimum-256-bits-long
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ats-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ats-network:
+    driver: bridge
