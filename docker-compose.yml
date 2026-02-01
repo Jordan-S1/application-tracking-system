@@ -22,10 +22,10 @@ services:
     build: .
     container_name: ats-backend
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ats_db
-      SPRING_DATASOURCE_USERNAME: ats_user
-      SPRING_DATASOURCE_PASSWORD: ats_password
-      JWT_SECRET: your-super-secret-key-change-in-production-minimum-256-bits-long
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-ats_db}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:-ats_user}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-ats_password}
+      JWT_SECRET: ${JWT_SECRET:-default_secret_key}
     ports:
       - "8080:8080"
     depends_on:

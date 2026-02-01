@@ -60,16 +60,16 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auths -> auths
                         // Public endpoints
-                        .requestMatchers("/api/v3/api-docs/**", "/api/swagger-ui/**", "/api/swagger-ui.html")
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                         .permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login").permitAll()
 
                         // Admin endpoints
-                        .requestMatchers(HttpMethod.GET, "/api/admin/**").hasRole("RECRUITER")
+                        .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("RECRUITER")
 
                         // Application endpoints - require authentication
-                        .requestMatchers("/api/applications/**").authenticated()
-                        .requestMatchers("/api/auth/**").authenticated()
+                        .requestMatchers("/applications/**").authenticated()
+                        .requestMatchers("/auth/**").authenticated()
 
                         // Catch all - require authentication
                         .anyRequest().authenticated())
