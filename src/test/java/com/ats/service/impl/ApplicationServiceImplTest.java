@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,6 +70,8 @@ public class ApplicationServiceImplTest {
                 .status(ApplicationStatus.APPLIED)
                 .jobUrl("https://google.com/jobs/123")
                 .notes("Great opportunity")
+                .statusHistory(new ArrayList<>())
+                .applicationNotes(new ArrayList<>())
                 .build();
     }
 
@@ -129,6 +132,8 @@ public class ApplicationServiceImplTest {
                 .jobTitle("Senior Developer")
                 .dateApplied(LocalDate.now())
                 .status(ApplicationStatus.APPLIED)
+                .statusHistory(new ArrayList<>())
+                .applicationNotes(new ArrayList<>())
                 .build();
 
         when(applicationRepository.findById(1L)).thenReturn(Optional.of(testApplication));
