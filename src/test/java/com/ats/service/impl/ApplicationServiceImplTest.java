@@ -18,6 +18,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -239,5 +244,84 @@ public class ApplicationServiceImplTest {
         // Act & Assert
         assertThrows(IllegalArgumentException.class,
                 () -> applicationService.validateOwnership(1L, otherUser));
+    }
+
+    // ---- searchApplications tests ----
+
+    @Test
+    void testSearchByStatusOnly() {
+        // Arrange - null companyName, status only (the bug case)
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Application> page =
+                new PageImpl<>(List.of(testApplication));
+        when(applicationRepository.searchApplications(testUser, ApplicationStatus.APPLIED, null, pageable))
+                .thenReturn(page);
+
+        // Act
+        Page<ApplicationResponse> result =
+                applicationService.searchApplications(testUser, ApplicationStatus.APPLIED, null, pageable);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals(ApplicationStatus.APPLIED, result.getContent().getFirst().getStatus());
+        verify(applicationRepository).searchApplications(testUser, ApplicationStatus.APPLIED, null, pageable);
+    }
+
+    @Test
+    void testSearchByCompanyNameOnly() {
+        // Arrange - null status, companyName only
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Application> page =
+                new PageImpl<>(List.of(testApplication));
+        when(applicationRepository.searchApplications(testUser, null, "Google", pageable))
+                .thenReturn(page);
+
+        // Act
+        Page<ApplicationResponse> result =
+                applicationService.searchApplications(testUser, null, "Google", pageable);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Google", result.getContent().getFirst().getCompanyName());
+    }
+
+    @Test
+    void testSearchByStatusAndCompanyName() {
+        // Arrange - both filters provided
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Application> page =
+                new PageImpl<>(List.of(testApplication));
+        when(applicationRepository.searchApplications(testUser, ApplicationStatus.APPLIED, "Google", pageable))
+                .thenReturn(page);
+
+        // Act
+        Page<ApplicationResponse> result =
+                applicationService.searchApplications(testUser, ApplicationStatus.APPLIED, "Google", pageable);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Google", result.getContent().getFirst().getCompanyName());
+        assertEquals(ApplicationStatus.APPLIED, result.getContent().getFirst().getStatus());
+    }
+
+    @Test
+    void testSearchNoFilters() {
+        // Arrange - both null, should return all user's applications
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Application> page =
+                new PageImpl<>(List.of(testApplication));
+        when(applicationRepository.searchApplications(testUser, null, null, pageable))
+                .thenReturn(page);
+
+        // Act
+        Page<ApplicationResponse> result =
+                applicationService.searchApplications(testUser, null, null, pageable);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
     }
 }

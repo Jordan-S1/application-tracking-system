@@ -30,7 +30,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
         @Query("SELECT a FROM Application a WHERE a.owner = :owner " +
                         "AND (:status IS NULL OR a.status = :status) " +
-                        "AND (:companyName IS NULL OR LOWER(a.companyName) LIKE LOWER(CONCAT('%', :companyName, '%')))")
+                        "AND (COALESCE(:companyName, '') = '' OR LOWER(a.companyName) LIKE LOWER(CONCAT('%', :companyName, '%')))")
         Page<Application> searchApplications(
                         @Param("owner") User owner,
                         @Param("status") ApplicationStatus status,
