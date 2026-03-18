@@ -24,14 +24,13 @@ jobs:
 
       - name: Run tests
         run: mvn test --batch-mode
-        working-directory: application_tracking_system
 
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
-          path: application_tracking_system/target/surefire-reports/
+          path: target/surefire-reports/
 
   docker-build:
     name: Build Docker Image
@@ -49,7 +48,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./application_tracking_system
+          context: .
           push: false
           tags: ats-backend:${{ github.sha }}
           cache-from: type=gha
